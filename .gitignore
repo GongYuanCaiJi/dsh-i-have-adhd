@@ -1,0 +1,12 @@
+.upstream/
+node_modules/
+dist/
+.serena/
+.DS_Store
+*.tgz
+.env
+.env.*
+*.log
+__pycache__/
+*.py[cod]
+evals/results/

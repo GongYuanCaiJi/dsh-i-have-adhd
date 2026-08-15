@@ -1,0 +1,64 @@
+{
+  "name": "dsh-i-have-adhd",
+  "version": "0.1.0",
+  "description": "ADHD 友好输出风格（移植自 i-have-adhd）",
+  "type": "module",
+  "main": "src/index.js",
+  "files": [
+    "src",
+    "skills",
+    "extensions",
+    "hooks",
+    "evals",
+    "scripts",
+    "tests",
+    "GEMINI.md",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "cordis.patch.yml"
+  ],
+  "license": "MIT",
+  "author": "GongYuanCaiJi",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GongYuanCaiJi/dsh-i-have-adhd.git"
+  },
+  "homepage": "https://github.com/GongYuanCaiJi/dsh-i-have-adhd#readme",
+  "bugs": {
+    "url": "https://github.com/GongYuanCaiJi/dsh-i-have-adhd/issues"
+  },
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "dsh",
+    "adhd",
+    "output-style",
+    "productivity",
+    "formatting",
+    "ai-agent",
+    "coding-assistant"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "private": true,
+  "scripts": {
+    "test": "node --test"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-llm": "0.1.0-rc.6"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-llm": "0.1.0-rc.6"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "pi": {
+    "extensions": ["./extensions/i-have-adhd.ts"],
+    "skills": ["./skills"]
+  }
+}
