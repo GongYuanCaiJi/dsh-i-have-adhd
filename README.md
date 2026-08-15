@@ -68,7 +68,8 @@ dsh plugin --profile <你的 profile> add github:GongYuanCaiJi/dsh-i-have-adhd
 
 ```bash
 git clone https://github.com/GongYuanCaiJi/dsh-i-have-adhd.git
-dsh plugin --profile <你的 profile> add ../dsh-i-have-adhd
+cd dsh-i-have-adhd
+dsh plugin --profile <你的 profile> add .
 ```
 
 ## 🚀 用法
@@ -185,7 +186,8 @@ From a local checkout:
 
 ```bash
 git clone https://github.com/GongYuanCaiJi/dsh-i-have-adhd.git
-dsh plugin --profile <your-profile> add ../dsh-i-have-adhd
+cd dsh-i-have-adhd
+dsh plugin --profile <your-profile> add .
 ```
 
 ## 🚀 Usage
