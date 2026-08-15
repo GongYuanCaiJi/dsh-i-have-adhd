@@ -35,7 +35,9 @@ done
 # prints nothing = every upstream file is byte-identical
 ```
 
-Expected SHA-256 of the byte-identical files (all 48 upstream files shipped in this repo):
+Expected SHA-256 of the byte-identical files (all 42 upstream files shipped in this repo,
+out of 46 tracked upstream files — the other four, `README.md`, `package.json`, `LICENSE`
+and `.gitignore`, are the adapted files listed below):
 
 ```
 776b5c4738b6dbc3e37a26e45cb8726d7d29e45682b46666c85807351af5a74b  .agents/plugins/marketplace.json
@@ -87,10 +89,28 @@ e9c25391912c32903b384065cfbbec1b9447d4d35ddfe80a29b4b2e9599d7820  tests/test_alw
 | File | What changed | Why it had to change |
 |---|---|---|
 | `package.json` | name → `dsh-i-have-adhd`; added `dsh.bundle.patch`, `main`, `files`, `scripts.test`, `peerDependencies`/`devDependencies` (`@deepseek-ai/dsh-llm` pinned `0.1.0-rc.6`), `repository`/`homepage`/`bugs`/`keywords`/`author`; kept the upstream `pi` key and `private: true` | the ticket mandates the dsh name; the dsh plugin loader needs the cordis patch and main entry; the other fields are the port production-line requirements (missing license/repository/keywords breaks npm discoverability) |
-| `README.md` | replaced with the port's own bilingual (CN-default) README | the port production-line convention (issue #27) requires the port template: attribution, features/effects, install at the 3rd heading, and a "what changed" section |
+| `README.md` | replaced with the port's own bilingual (CN-default) README | the port production-line convention (issue #27, A-report) requires the port template — attribution, features/effects, install at the 3rd heading, and a "what changed" section. The upstream README is the upstream's own face (its install instructions target six other agents and say nothing about dsh); shipping it verbatim would hide the port |
 | `LICENSE` | added `Copyright (c) 2026 GongYuanCaiJi (dsh port)` line | dual-copyright convention; role marked in parentheses so GitHub still detects MIT |
 | `.gitignore` | merged upstream entries (`__pycache__/`, `*.py[cod]`, `evals/results/`) into the production-line `.gitignore` | the production-line `.gitignore` is required (`.upstream/`, `.serena/`, `*.log`, …) |
 | `src/index.js`, `cordis.patch.yml`, `test/*.test.js` | new files, no upstream counterpart | DeepSeek Harness has no skill service; the port exposes the skill through the harness's command seam (`/i-have-adhd` injects the SKILL.md body verbatim via `agent.followup`) |
+
+### Why the command seam — the evidence that the skill cannot ship as a skill
+
+The adaptation trigger is "the harness cannot load a skill", not a preference. Evidence, gathered
+from the pinned dsh runtime (`@deepseek-ai/dsh-agent` and `@deepseek-ai/dsh-llm` at `0.1.0-rc.6`,
+installed under `~/.dsh/profiles/node_modules/@deepseek-ai/`):
+
+- a case-insensitive grep for `skill` across the two packages' `lib/` returns zero hits — there
+  is no `skills` service, no `ctx.skills`, no skill registration API;
+- the established pattern for delivering skill content in dsh is therefore a command that
+  injects the content into the session: the fleet pilot `dsh-simplify` registers `/simplify`
+  and sends its prompt via `agent.followup(createUserMessage(...))`, the exact seam used here;
+- `zimai233/dsh-adhd-copilot` (the existing ADHD-domain dsh skill pack) documents the same
+  conclusion: "DSH ships no confirmed `skills` service in the reference agent, so this plugin
+  deliberately registers ONLY the tool (safer)".
+
+`/i-have-adhd` is the direct mapping of the upstream's own invocation surface (the skill's
+frontmatter description: "Invoke with /i-have-adhd; stays on until `stop adhd mode`").
 
 The injected skill body is the upstream `skills/i-have-adhd/SKILL.md` with the YAML
 frontmatter block and the single blank separator line after it removed; every other byte

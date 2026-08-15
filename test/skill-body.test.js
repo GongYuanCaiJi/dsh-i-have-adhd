@@ -34,3 +34,15 @@ test("readSkillBody strips frontmatter and the separator blank line", () => {
   assert.ok(!body.startsWith("---"), "body does not start with the fence");
   assert.ok(body.length < raw.length, "body is shorter than the raw file");
 });
+
+test("readSkillBody accepts an explicit skill path", () => {
+  const fixture = join(
+    dirname(fileURLToPath(import.meta.url)),
+    "fixtures",
+    "custom-skill.md",
+  );
+  assert.equal(
+    readSkillBody(fixture),
+    "# fixture\n\nCustom body for the explicit-path test.\n",
+  );
+});

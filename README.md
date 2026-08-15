@@ -83,7 +83,7 @@ stop adhd mode 或 normal mode    # 关闭（SKILL.md 原文规定的关法）
 <details>
 <summary>移植说明（对上游 <code>ayghri/i-have-adhd</code>，commit <code>2ed0640</code>）</summary>
 
-逐字保留（`cmp` 验证一致，48 个文件）：`skills/i-have-adhd/SKILL.md` 与 `agents/*`、
+逐字保留（`cmp` 验证一致，42 个文件）：`skills/i-have-adhd/SKILL.md` 与 `agents/*`、
 `extensions/i-have-adhd.ts`、`hooks/*`、`evals/*`、`scripts/*`、`tests/*`、
 各平台 manifest（`.claude-plugin/` `.codex-plugin/` `.cursor/` `.agents/` gemini/kimi/qwen/plugin.json）、
 `GEMINI.md`、`INSTALL.md`、`.github/*`（4 个 workflow + 5 种语言的 README/INSTALL 翻译）。
@@ -201,7 +201,7 @@ topic changes; when in doubt, they still apply.
 <details>
 <summary>Port notes (vs upstream <code>ayghri/i-have-adhd</code> @ <code>2ed0640</code>)</summary>
 
-Byte-identical (`cmp`-verified, 48 files): `skills/i-have-adhd/SKILL.md` and `agents/*`,
+Byte-identical (`cmp`-verified, 42 files): `skills/i-have-adhd/SKILL.md` and `agents/*`,
 `extensions/i-have-adhd.ts`, `hooks/*`, `evals/*`, `scripts/*`, `tests/*`,
 per-agent manifests (`.claude-plugin/` `.codex-plugin/` `.cursor/` `.agents/` gemini/kimi/qwen/plugin.json),
 `GEMINI.md`, `INSTALL.md`, `.github/*` (4 workflows + README/INSTALL translations in 5 languages).

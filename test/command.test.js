@@ -1,12 +1,29 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   buildAdhdModeMessage,
   handleIHaveAdhdCommand,
-  readSkillBody,
 } from "../src/index.js";
 
 const PLUGIN_NAME = "dsh-i-have-adhd";
+
+// Independent oracle for the injected body: strip the frontmatter block from
+// the packaged SKILL.md with a different mechanism than the implementation
+// (regex instead of slice), so the expected value never comes from the module
+// under test.
+const SKILL_PATH = join(
+  dirname(fileURLToPath(import.meta.url)),
+  "..",
+  "skills",
+  "i-have-adhd",
+  "SKILL.md",
+);
+const EXPECTED_BODY = readFileSync(SKILL_PATH, "utf8")
+  .replace(/^---\n[\s\S]*?\n---\n/, "")
+  .replace(/^\n+/, "");
 
 /** Stub agent that records everything handed to followup. Not an identity
  * stub: the tests assert on the exact injected payload, so a handler that
@@ -36,7 +53,7 @@ test("handleIHaveAdhdCommand injects the verbatim skill body via followup", asyn
   const result = await handleIHaveAdhdCommand("", agent);
   assert.equal(agent.calls.length, 1);
   assert.equal(agent.calls[0].content[0].type, "text");
-  assert.equal(agent.calls[0].content[0].text, readSkillBody());
+  assert.equal(agent.calls[0].content[0].text, EXPECTED_BODY);
   assert.equal(agent.calls[0].source.plugin, PLUGIN_NAME);
   assert.equal(result.kind, "success");
   assert.ok(result.text.length > 0, "returns a confirmation text");
@@ -46,7 +63,7 @@ test("handleIHaveAdhdCommand ignores trailing arguments", async () => {
   const agent = recordingAgent();
   await handleIHaveAdhdCommand("--whatever extra", agent);
   assert.equal(agent.calls.length, 1);
-  assert.equal(agent.calls[0].content[0].text, readSkillBody());
+  assert.equal(agent.calls[0].content[0].text, EXPECTED_BODY);
 });
 
 test("handleIHaveAdhdCommand propagates followup failures", async () => {
